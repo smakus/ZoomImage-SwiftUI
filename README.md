@@ -1,5 +1,5 @@
 # ZoomImage-SwiftUI
-a basic pinch-to-zoom image view for swiftUI
+A basic pinch-to-zoom image view for swiftUI
 
 You can use this SwiftUI View to display an image at the proper aspect, zoomed in to default width or height of the screen, depending on image aspect.  Then you can pinch to zoom and swipe to move around the image.
 
