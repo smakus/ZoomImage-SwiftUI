@@ -1,4 +1,70 @@
 import SwiftUI
+import PDFKit
+
+
+struct PDFKitRepresentedView: UIViewRepresentable {
+    typealias UIViewType = PDFView
+
+    var image: UIImage
+    
+    init(_ image: UIImage) {
+        self.image = image
+    }
+
+    func makeUIView(context _: UIViewRepresentableContext<PDFKitRepresentedView>) -> UIViewType {
+        // Create a `PDFView` and set its `PDFDocument`.
+        let pdfView = PDFView()
+        pdfView.backgroundColor = UIColor.systemBackground
+        
+        if let pdfPage = PDFPage(image: image) {
+            let pdfDoc = PDFDocument()
+            pdfDoc.insert(pdfPage, at: 0)
+            
+            pdfView.autoScales = true
+            pdfView.displayMode = .singlePageContinuous
+            pdfView.displayDirection = .vertical
+            
+            pdfView.document = pdfDoc
+        }
+        return pdfView
+    }
+
+    func updateUIView(_ pdfView: UIViewType, context _: UIViewRepresentableContext<PDFKitRepresentedView>) {
+        if let pdfPage = PDFPage(image: image) {
+            let pdfDoc = PDFDocument()
+            pdfDoc.insert(pdfPage, at: 0)
+            
+            pdfView.autoScales = true
+            pdfView.displayMode = .singlePageContinuous
+            pdfView.displayDirection = .vertical
+            
+            pdfView.document = pdfDoc
+        }
+    }
+}
+
+struct EnlargedImagePdfVersion : View {
+    
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    
+    var image:UIImage
+    var body: some View {
+        ZStack {
+        PDFKitRepresentedView(image)
+            VStack{
+                HStack{
+                    Spacer()
+                    Button(action: {
+                        mode.wrappedValue.dismiss()
+                    }, label: {
+                        Text("close").padding(). //your close button text or image, or just remove the entire button
+                    })
+                }
+                Spacer()
+            }
+        }
+    }
+}
 
 struct EnlargedImage: View {
     //required to pass in
